@@ -28,7 +28,7 @@ Meteor.publish("myBooks", function () {
             var info = Infos.findOne({
                 _id: fields.infoId
             });
-            fields.data = info.data;
+            fields.info = info.data;
             self.added("books", id, fields);
         },
         changed: function () {

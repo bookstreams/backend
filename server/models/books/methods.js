@@ -10,7 +10,8 @@ var getInfoId = function (isbn) {
         process.env.ISBNDB_API_KEY,
         "/book/"
     ].join("");
-    var data = HTTP.get(isbndbBaseUrl + isbn).data;
+    var req = HTTP.get(isbndbBaseUrl + isbn);
+    var data = JSON.parse(req.content).data[0];
     return Infos.insert({
         isbn: isbn,
         data: data
