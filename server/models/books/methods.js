@@ -5,13 +5,14 @@ var getInfoId = function (isbn) {
     if (info) {
         return info._id;
     }
-    var isbndbBaseUrl = [
-        "http://isbndb.com/api/v2/json/",
-        process.env.ISBNDB_API_KEY,
-        "/book/"
-    ].join("");
-    var req = HTTP.get(isbndbBaseUrl + isbn);
-    var data = JSON.parse(req.content).data[0];
+    var gbApiBaseUrl = "https://www.googleapis.com/books/v1/volumes";
+    var req = HTTP.get(gbApiBaseUrl, {
+        params: {
+            q: "isbn+" + isbn,
+            key: process.env.GB_API_KEY
+        }
+    });
+    var data = JSON.parse(req.content).items[0];
     return Infos.insert({
         isbn: isbn,
         data: data
