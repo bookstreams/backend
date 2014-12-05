@@ -20,18 +20,16 @@ var ScanSchema = new SimpleSchema({
 });
 
 var BookSchema = new SimpleSchema({
-    title: {
+    userId: {
         type: String
     },
-    author: {
+    infoId: {
         type: String
     },
-    isbn: {
+    qrCode: {
         type: String,
-        optional: true
-    },
-    coverPictureUrl: {
-        type: String
+        index: true,
+        unique: true
     },
     scans: {
         type: [ScanSchema]
