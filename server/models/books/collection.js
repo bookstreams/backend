@@ -1,9 +1,11 @@
 var CoordinatesSchema = new SimpleSchema({
     latitude: {
-        type: Number
+        type: Number,
+        decimal: true
     },
     longitude: {
-        type: Number
+        type: Number,
+        decimal: true
     }
 });
 
