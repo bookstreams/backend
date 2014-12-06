@@ -25,7 +25,7 @@ Meteor.methods({
     insertBook: function (isbn, qrCode) {
         var user = Meteor.user();
         if (!user) {
-            return;
+            throw Meteor.Error("login-required", "Login required");
         }
         Books.insert({
             userId: user._id,
