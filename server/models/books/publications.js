@@ -7,32 +7,43 @@ Meteor.publish("myBooks", function () {
     }
 
     var selector = {
-        $or: [
-            // User inserted the book
-            {
+        scans: {
+            $elemMatch: {
                 userId: self.userId
-            },
-            // User scanned the book
-            {
-                scans: {
-                    $elemMatch: {
-                        userId: self.userId
-                    }
-                }
             }
-        ]
+        }
+    };
+
+    var aggregateBookInfo = function (infoId) {
+        return infoId && Infos.findOne({
+            _id: infoId
+        }).data;
+    };
+
+    var aggregateUsersData = function (scans) {
+        return scans && scans.map(function (scan) {
+            var user = Meteor.users.findOne({
+                _id: scan.userId
+            });
+            scan.user = {
+                _id: user._id,
+                name: user.profile.name,
+                pictureUrl: user.profile.pictureUrl
+            };
+            return scan;
+        });
     };
 
     var handle = Books.find(selector).observeChanges({
         added: function (id, fields) {
-            var info = Infos.findOne({
-                _id: fields.infoId
-            });
-            fields.info = info.data;
+            fields.info = aggregateBookInfo(fields.infoId);
+            fields.scans = aggregateUsersData(fields.scans);
             self.added("books", id, fields);
         },
-        changed: function () {
-            // Think about it
+        changed: function (id, fields) {
+            fields.info = aggregateBookInfo(fields.infoId);
+            fields.scans = aggregateUsersData(fields.scans);
+            self.changed("books", id, fields);
         },
         removed: function (id) {
             self.removed("books", id);
