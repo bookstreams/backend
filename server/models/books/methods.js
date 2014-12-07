@@ -61,8 +61,8 @@ Meteor.methods({
                 },
                 // The book has never been scanned by this user
                 {
-                    $not: {
-                        scans: {
+                    scans: {
+                        $not: {
                             $elemMatch: {
                                 userId: user._id
                             }
