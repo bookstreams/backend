@@ -7,4 +7,5 @@ ADD ./ /api.bookstreams.org/
 RUN cd /api.bookstreams.org && meteor bundle /bundle.tgz
 RUN tar xvzf /bundle.tgz
 RUN cd /bundle/programs/server && npm install
+EXPOSE 3000
 ENTRYPOINT ["node", "/bundle/main.js"]
