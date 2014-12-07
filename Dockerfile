@@ -1,4 +1,4 @@
-FROM nodejs
+FROM node
 MAINTAINER Paolo Scanferla <paolo.scanferla@mondora.com>
 WORKDIR /
 RUN curl https://install.meteor.com/ | sh
