@@ -37,9 +37,6 @@ var BookSchema = new SimpleSchema({
         type: [ScanSchema]
     }
 });
-BookSchema.messages({
-    notUnique: "qrCode already taken"
-});
 
 Books = new Mongo.Collection("books");
 Books.attachSchema(BookSchema);
